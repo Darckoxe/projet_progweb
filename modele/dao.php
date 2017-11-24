@@ -80,26 +80,26 @@ catch(PDOException $e){
 //vérifie qu'un pseudo existe dans la table pseudonyme
 // post-condition retourne vrai si le pseudo existe sinon faux
 // si un problème est rencontré, une exception de type TableAccesException est levée
-// public function exists($pseudo){
-// try{
-// 	$statement = $this->connexion->prepare("select id from pseudonyme where pseudo=?;");
-// 	$statement->bindParam(1, $pseudo);
-// 	$pseudoParam=$pseudo;
-// 	$statement->execute();
-// 	$result=$statement->fetch(PDO::FETCH_ASSOC);
-//
-// 	if ($result["id"]!=NUll){
-// 	return true;
-// 	}
-// 	else{
-// 	return false;
-// 	}
-// }
-// catch(PDOException $e){
-//     $this->deconnexion();
-//     throw new TableAccesException("problème avec la table pseudonyme");
-//     }
-// }
+public function exists($pseudo){
+try{
+	$statement = $this->connexion->prepare("select id from pseudonyme where pseudo=?;");
+	$statement->bindParam(1, $pseudo);
+	$pseudoParam=$pseudo;
+	$statement->execute();
+	$result=$statement->fetch(PDO::FETCH_ASSOC);
+
+	if ($result["id"]!=NUll){
+	return true;
+	}
+	else{
+	return false;
+	}
+}
+catch(PDOException $e){
+    $this->deconnexion();
+    throw new TableAccesException("problème avec la table pseudonyme");
+    }
+}
 
 public function getPassword($pseudo){
     $statement = $this->connexion->prepare("select motDePasse from joueurs where pseudo = ?");
@@ -110,19 +110,6 @@ public function getPassword($pseudo){
 
     return $hashPass['motDePasse'];
 }
-
-// public function comparerPassword($pseudo, $password){
-//   if (exists($pseudo)) {
-//     $mdp_a_comparer = getPassword($pseudo);
-//     if (crypt($password, $mdp_a_comparer == $mdp_a_comparer)) {
-//       return true;
-//     }
-//     else{
-//       return false;
-//     }
-//   }
-//   return false;
-// }
 
 }
 

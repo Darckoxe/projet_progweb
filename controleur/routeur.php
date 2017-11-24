@@ -15,11 +15,11 @@ class Routeur {
 
   // Traite une requête entrante
   public function routerRequete() {
-    $this->ctrlAuthentification->accueil();
-
     if ((isset($_POST['pseudo'])) && $_POST['password']) {
       $this->ctrlAuthentification->verif($_POST['pseudo'], $_POST['password']);
+      return;
     }
+    $this->ctrlAuthentification->accueil();
  }
 
 

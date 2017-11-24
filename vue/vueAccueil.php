@@ -5,7 +5,6 @@ class VueAccueil{
 function accueil(){
 header("Content-type: text/html; charset=utf-8");
 ?>
-
 <html>
   <body>
     <br/>
