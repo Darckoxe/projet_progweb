@@ -17,7 +17,7 @@ define("PATH_METIER",HOME_SITE."/metier");
 // remplacer les X par vos identifiants de connexion à mysql
 
 define("HOST","localhost");
-define("BD","progwebserver_td3");
+define("BD","X");
 define("LOGIN","root");
-define("PASSWORD","LaVlOx?44680");
+define("PASSWORD","X");
 ?>
