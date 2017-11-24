@@ -18,9 +18,10 @@ function accueil(){
     $this->vue_accueil->accueil();
 }
 
-function verif($pseudo){
-    echo $this->dao->getPassword($pseudo); // mot de passe crypté
-
+function verif($pseudo, $password){
+    $mdpBdd = $this->dao->getPassword($pseudo); // mot de passe crypté de la bdd
+    echo "Pass bdd = ".$mdpBdd."<br/>";
+    echo "Pass crypt = ".crypt($password, $mdpBdd);
 
 }
 
