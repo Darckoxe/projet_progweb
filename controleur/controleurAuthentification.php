@@ -1,39 +1,45 @@
 <?php
-require_once PATH_VUE."/vue.php";
-require_once 'modele/modele.php';
+require_once PATH_VUE."/vueAccueil.php";
+require_once 'modele/dao.php';
 
 
 class ControleurAuthentification{
 
-private $vue;
-private $modele;
+private $vue_accueil;
+private $dao;
 
 
 function __construct(){
-$this->vue=new Vue();
-$this->modele = new Modele();
+$this->vue_accueil=new VueAccueil();
+$this->dao = new Dao();
 }
 
 function accueil(){
-    $this->vue->demandePseudo();
+    $this->vue_accueil->accueil();
+}
+
+function verif($pseudo){
+    echo $this->dao->getPassword($pseudo); // mot de passe crypté
+
+
 }
 
 function verifLogin($pseudo){
   if ($this->modele->exists($pseudo)) {
     $_SESSION['pseudo'] = $_POST['pseudo'];
-    $les10messages = $this->modele->get10RecentMessage();
-    $this->vue->salon($les10messages);
+    $this->vue->salon();
   }
   else {
     $this->accueil();
   }
 }
 
-function ajoutMessage($message){
-  $this->modele->majSalon($_SESSION['pseudo'], $message);
-  $les10messages = $this->modele->get10RecentMessage();
-  $this->vue->salon($les10messages);
-}
+//
+// function ajoutMessage($message){
+//   $this->modele->majSalon($_SESSION['pseudo'], $message);
+//   $les10messages = $this->modele->get10RecentMessage();
+//   $this->vue->salon($les10messages);
+// }
 
 
 

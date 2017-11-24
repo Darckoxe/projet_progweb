@@ -9,7 +9,6 @@ define("HOME_SITE",__DIR__."/..");
 define("PATH_VUE",HOME_SITE."/vue");
 define("PATH_CONTROLEUR",HOME_SITE."/controleur");
 define("PATH_MODELE",HOME_SITE."/modele");
-define("PATH_METIER",HOME_SITE."/metier");
 
 
 // données pour la connexion au sgbd
@@ -17,7 +16,7 @@ define("PATH_METIER",HOME_SITE."/metier");
 // remplacer les X par vos identifiants de connexion à mysql
 
 define("HOST","localhost");
-define("BD","X");
+define("BD","miniprojet_progweb");
 define("LOGIN","root");
-define("PASSWORD","X");
+define("PASSWORD","LaVlOx?44680");
 ?>

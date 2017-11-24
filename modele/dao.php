@@ -1,5 +1,4 @@
 <?php
-require_once PATH_METIER."/Message.php";
 
 
 // Classe generale de definition d'exception
@@ -27,7 +26,7 @@ class TableAccesException extends MonException{
 
 // Classe qui gère les accès à la base de données
 
-class Modele{
+class Dao{
 private $connexion;
 
 // Constructeur de la classe
@@ -43,8 +42,6 @@ public function __construct(){
     throw $exception;
   }
 }
-
-
 
 
 // A développer
@@ -83,26 +80,49 @@ catch(PDOException $e){
 //vérifie qu'un pseudo existe dans la table pseudonyme
 // post-condition retourne vrai si le pseudo existe sinon faux
 // si un problème est rencontré, une exception de type TableAccesException est levée
-public function exists($pseudo){
-try{
-	$statement = $this->connexion->prepare("select id from pseudonyme where pseudo=?;");
-	$statement->bindParam(1, $pseudoParam);
-	$pseudoParam=$pseudo;
-	$statement->execute();
-	$result=$statement->fetch(PDO::FETCH_ASSOC);
+// public function exists($pseudo){
+// try{
+// 	$statement = $this->connexion->prepare("select id from pseudonyme where pseudo=?;");
+// 	$statement->bindParam(1, $pseudo);
+// 	$pseudoParam=$pseudo;
+// 	$statement->execute();
+// 	$result=$statement->fetch(PDO::FETCH_ASSOC);
+//
+// 	if ($result["id"]!=NUll){
+// 	return true;
+// 	}
+// 	else{
+// 	return false;
+// 	}
+// }
+// catch(PDOException $e){
+//     $this->deconnexion();
+//     throw new TableAccesException("problème avec la table pseudonyme");
+//     }
+// }
 
-	if ($result["id"]!=NUll){
-	return true;
-	}
-	else{
-	return false;
-	}
-}
-catch(PDOException $e){
+public function getPassword($pseudo){
+    $statement = $this->connexion->prepare("select motDePasse from joueurs where pseudo = ?");
+    $statement->bindParam(1, $pseudo);
+    $statement->execute();
+    $hashPass = $statement->fetch();
     $this->deconnexion();
-    throw new TableAccesException("problème avec la table pseudonyme");
-    }
+
+    return $hashPass['motDePasse'];
 }
+
+// public function comparerPassword($pseudo, $password){
+//   if (exists($pseudo)) {
+//     $mdp_a_comparer = getPassword($pseudo);
+//     if (crypt($password, $mdp_a_comparer == $mdp_a_comparer)) {
+//       return true;
+//     }
+//     else{
+//       return false;
+//     }
+//   }
+//   return false;
+// }
 
 }
 
