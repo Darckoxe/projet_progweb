@@ -6,7 +6,7 @@ require_once PATH_VUE."/vueResultat.php";
 require_once 'modele/dao.php';
 
 
-class ControleurAuthentification{
+class ControleurPartie{
 
 private $vue_accueil;
 private $vue_erreur;
@@ -24,22 +24,16 @@ $this->vue_resultat=new VueResultat();
 $this->dao = new Dao();
 }
 
-function accueil(){
-    $this->vue_accueil->accueil();
-    return;
-}
-
-function verif($pseudo, $password){
-    $mdpBdd = $this->dao->getPassword($pseudo); // mot de passe crypté de la bdd
-
-    if (crypt($password,$mdpBdd) == $mdpBdd) {
-      $this->vue_partie->accueil();
-      return;
-    }
-    else{
-      $this->vue_erreur->erreurAuthentification();
-      return;
-    }
-
+function nouvellePartie($x, $y){
+  $x = $x-1;
+  $y = $y-1;
+  /* L'utilisateur ne sait pas qu'une matrice commence à 0
+  Quand il rentre les coordonnées 1;1 il pense que c'est la
+  case en haut a gauche. En réalité pour l'ordinateur c'est la coordonnée 0;0
+  donc on soustrait 1 à x et y pour pouvoir travailler sur les tableaux de façon
+  normal avec la case 0.
+  */
+  $this->vue_partie->supprimerPion($x,$y);
+  return;
   }
 }
