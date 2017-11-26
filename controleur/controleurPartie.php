@@ -25,6 +25,13 @@ $this->dao = new Dao();
 }
 
 function nouvellePartie($x, $y){
+
+  if (($x<=2) || ($x >=6)){
+    if (($y<=2) || ($y>=6)) {
+      $this->vue_erreur->erreurSuppression();
+      return;
+    }
+  }
   $x = $x-1;
   $y = $y-1;
   /* L'utilisateur ne sait pas qu'une matrice commence à 0
@@ -36,4 +43,27 @@ function nouvellePartie($x, $y){
   $this->vue_partie->supprimerPion($x,$y);
   return;
   }
+
+function selectionnerPion($x,$y){
+  if (($x<=2) || ($x >=6)){
+    if (($y<=2) || ($y>=6)) {
+      $x = $x-1;
+      $y = $y-1;
+      $this->vue_erreur->erreurSelection();
+      return;
+    }
+  }
+    $x = $x-1;
+    $y = $y-1;
+    $this->vue_partie->selectionnerPion($x,$y);
+    return;
+  }
+
+function deplacerPion($x,$y){
+  $x = $x-1;
+  $y = $y-1;
+  $this->vue_partie->deplacerPion($x,$y);
+  return;
+  }
 }
+?>

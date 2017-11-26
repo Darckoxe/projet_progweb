@@ -18,5 +18,5 @@ define("PATH_MODELE",HOME_SITE."/modele");
 define("HOST","localhost");
 define("BD","miniprojet_progweb");
 define("LOGIN","root");
-define("PASSWORD","LaVlOx?44680");
+define("PASSWORD","root");
 ?>
