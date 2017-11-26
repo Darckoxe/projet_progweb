@@ -83,12 +83,12 @@ header("Content-type: text/html; charset=utf-8");
 
       <form action="index.php" method="post">
         <br/>
-        <label for="coordonnees_tomove_x">Indiquer la ligne du pion à déplacer</label>
+        <label for="coordonnees_tomove_x">Indiquer la ligne de la bille à sélectionner</label>
         <input type="number" name="coordonnees_tomove_x" value="1" min="1" max="7"> <br/>
-        <label for="coordonnees_tomove_y">Indiquer la colonne du pion à déplacer</label>
+        <label for="coordonnees_tomove_y">Indiquer la colonne de la bille à sélectionner</label>
         <input type="number" name="coordonnees_tomove_y" value="1" min="1" max="7"><br/>
 
-        <input type="submit" name="selection_pion" value="Selectionner le pion">
+        <input type="submit" name="selection_pion" value="Selectionner la bille">
       </form>
 
     </body>
@@ -102,7 +102,6 @@ $x_del = $_SESSION['pion_supprime_x'];
 $y_del =  $_SESSION['pion_supprime_y'];
 $_SESSION['pion_selection_x'] = $x;
 $_SESSION['pion_selection_y'] = $y;
-
 
   $plateau = array();
   $plateau[0] = array("O","O","X","X","X","O","O");
@@ -139,7 +138,7 @@ $_SESSION['pion_selection_y'] = $y;
       <label for="coordonnees_moved_y">Indiquer la colonne de la case à atteindre</label>
       <input type="number" name="coordonnees_moved_y" value="1" min="1" max="7"><br/>
 
-      <input type="submit" name="deplacer" value="Déplacer le pion">
+      <input type="submit" name="deplacer" value="Déplacer la bille">
     </form>
 <?php
   }
@@ -164,7 +163,14 @@ function deplacerPion($x,$y){
       $this->supprimerPion($x_del,$y_del);
       return;
     }
-
+    if (($x_sel - $x == 1) || ($x_sel - $x == -1)) {
+      $this->supprimerPion($x_del,$y_del);
+      return;
+    }
+    if (($y_sel - $y == 1) || ($y_sel - $y == -1)) {
+      $this->supprimerPion($x_del,$y_del);
+      return;
+    }
     //Déplacement sur la ligne
     if ($x_sel - $x == 0) {
       $x_saute = $x_sel;

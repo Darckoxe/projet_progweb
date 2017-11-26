@@ -53,6 +53,11 @@ function selectionnerPion($x,$y){
       return;
     }
   }
+
+  if (($_SESSION['pion_supprime_x']+1 == $x) && ($_SESSION['pion_supprime_y']+1 == $y)) {
+    $this->vue_erreur->erreurSelection();
+    return;
+  }
     $x = $x-1;
     $y = $y-1;
     $this->vue_partie->selectionnerPion($x,$y);
