@@ -24,50 +24,48 @@ $this->vue_resultat=new VueResultat();
 $this->dao = new Dao();
 }
 
-function nouvellePartie($x, $y){
-
-  if (($x<=2) || ($x >=6)){
-    if (($y<=2) || ($y>=6)) {
+function supprimerBille($x_del,$y_del){
+  if (($x_del<=2) || ($x_del >=6)){ // Si on sélectionne une case vide
+    if (($y_del<=2) || ($y_del>=6)) {
       $this->vue_erreur->erreurSuppression();
       return;
     }
   }
-  $x = $x-1;
-  $y = $y-1;
+
+  $x_del = $x_del-1;
+  $y_del = $y_del-1;
   /* L'utilisateur ne sait pas qu'une matrice commence à 0
   Quand il rentre les coordonnées 1;1 il pense que c'est la
   case en haut a gauche. En réalité pour l'ordinateur c'est la coordonnée 0;0
   donc on soustrait 1 à x et y pour pouvoir travailler sur les tableaux de façon
   normal avec la case 0.
   */
-  $this->vue_partie->supprimerPion($x,$y);
+  $this->vue_partie->supprimerBille($x_del,$y_del);
   return;
   }
 
-function selectionnerPion($x,$y){
-  if (($x<=2) || ($x >=6)){
-    if (($y<=2) || ($y>=6)) {
-      $x = $x-1;
-      $y = $y-1;
+function selectionnerBille($x_sel,$y_sel){
+  if (($x_sel<=2) || ($x_sel >=6)){
+    if (($y_sel<=2) || ($y_sel>=6)) {
+      $x_sel = $x_sel-1;
+      $y_sel = $y_sel-1;
       $this->vue_erreur->erreurSelection();
       return;
     }
   }
 
-  if (($_SESSION['pion_supprime_x']+1 == $x) && ($_SESSION['pion_supprime_y']+1 == $y)) {
-    $this->vue_erreur->erreurSelection();
-    return;
-  }
-    $x = $x-1;
-    $y = $y-1;
-    $this->vue_partie->selectionnerPion($x,$y);
+/* Gérer l'erreur où on sélectionne une case vide */
+
+    $x_sel = $x_sel-1;
+    $y_sel = $y_sel-1;
+    $this->vue_partie->selectionBille($x_sel,$y_sel);
     return;
   }
 
-function deplacerPion($x,$y){
-  $x = $x-1;
-  $y = $y-1;
-  $this->vue_partie->deplacerPion($x,$y);
+function deplacerBille($x_move,$y_move){
+  $x_move = $x_move-1;
+  $y_move = $y_move-1;
+  $this->vue_partie->deplacerBille($x_move,$y_move);
   return;
   }
 }

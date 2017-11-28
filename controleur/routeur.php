@@ -26,18 +26,21 @@ class Routeur {
       return;
     }
 
-    if (isset($_POST['jouer'])) {
-      $this->ctrlPartie->nouvellePartie($_POST['coordonnees_remove_x'],$_POST['coordonnees_remove_y']);
+    if ((isset($_POST['coordonnees_remove_x'])) && (isset($_POST['coordonnees_remove_y']))) {
+      $this->ctrlPartie->supprimerBille($_POST['coordonnees_remove_x'],$_POST['coordonnees_remove_y']);
       return;
     }
 
+
+
     if(isset($_POST['coordonnees_tomove_x']) && isset($_POST['coordonnees_tomove_y'])){
-      $this->ctrlPartie->selectionnerPion($_POST['coordonnees_tomove_x'],$_POST['coordonnees_tomove_y']);
+      $this->ctrlPartie->selectionnerBille($_POST['coordonnees_tomove_x'], $_POST['coordonnees_tomove_y']);
       return;
     }
 
     if (isset($_POST['coordonnees_moved_x']) && isset($_POST['coordonnees_moved_y'])) {
-      $this->ctrlPartie->deplacerPion($_POST['coordonnees_moved_x'],$_POST['coordonnees_moved_y']);
+      $this->ctrlPartie->deplacerBille($_POST['coordonnees_moved_x'],$_POST['coordonnees_moved_y']);
+      $this->ctrlPartie->testVictoire();
       return;
     }
 

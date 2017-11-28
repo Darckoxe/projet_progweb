@@ -1,118 +1,98 @@
 <?php
-
-class VueErreur{
-
-function erreurAuthentification(){
-header("Content-type: text/html; charset=utf-8");
-?>
-
-<html>
-  <body>
-      <p> Erreur authentification, réessayez </p>
-      <form method="post" action="index.php">
-        <label for="pseudo"> Entrer votre pseudo </label> <input type="text" name="pseudo"/> <br />
-        <label for="password"> Entrer votre mot de passe </label> <input type="password" name="password"/> <br /> <br />
-        <input type="submit" name="soumettre" value="Envoyer"/>
-      </form>
-  </body>
-</html>
-
-
-<?php
-}
-
-function erreurSuppression(){
-header("Content-type: text/html; charset=utf-8");
-?>
-  <html>
-    <body>
-        <?php
-        $plateau = array(); // On crée une matrice
-        $plateau[0] = array("O","O","X","X","X","O","O");
-        $plateau[1] = array("O","O","X","X","X","O","O");
-        $plateau[2] = array("X","X","X","X","X","X","X");
-        $plateau[3] = array("X","X","X","X","X","X","X");
-        $plateau[4] = array("X","X","X","X","X","X","X");
-        $plateau[5] = array("O","O","X","X","X","O","O");
-        $plateau[6] = array("O","O","X","X","X","O","O");
-
-        for ($i=0; $i <7; $i++) {
-          echo "<br/>";
-          for ($j=0; $j <7 ; $j++) {
-            if($plateau[$i][$j] == "X"){
-              $plateau[$i][$j] = "<img src='css/img/bille.png' alt='bille'>";
-            }
-            if($plateau[$i][$j] == "O"){
-              $plateau[$i][$j] = "<img src='css/img/vide.png' alt='vide'>";
-            }
-            echo $plateau[$i][$j];
-          }
-        }
-        ?>
-
-        <form action="index.php" method="post">
-          <br/>
-          <p> La ligne ou la colonne que vous avez choisi est invalide, recommencez. </p>
-          <label for="coordonnees_remove_x">Indiquer la ligne du pion à supprimer</label>
-          <input type="number" name="coordonnees_remove_x" value="1" min="1" max="7"> <br/>
-          <label for="coordonnees_remove_y">Indiquer la colonne du pion à supprimer</label>
-          <input type="number" name="coordonnees_remove_y" value="1" min="1" max="7"><br/>
-
-          <input type="submit" name="jouer" value="Jouer">
-        </form>
-    </body>
-  </html>
+Class VueErreur{
+  function formErreurAuthentification(){ ?>
+    <html>
+      <body>
+          <p> Erreur authentification, réessayez </p>
+          <form method="post" action="index.php">
+            <label for="pseudo"> Entrer votre pseudo </label> <input type="text" name="pseudo"/> <br />
+            <label for="password"> Entrer votre mot de passe </label> <input type="password" name="password"/> <br /> <br />
+            <input type="submit" name="soumettre" value="Envoyer"/>
+          </form>
+      </body>
+    </html>
 <?php
   }
 
-function erreurSelection(){
-  header("Content-type: text/html; charset=utf-8");
-  ?>
-  <html>
+  function formErreurSupprimerBille(){?>
+    <html>
       <body>
-        <?php
-        // $_SESSION['pion_supprime_x'] = $x;
-        // $_SESSION['pion_supprime_y'] = $y;
-
-        $plateau = array(); // On crée une matrice
-        $plateau[0] = array("O","O","X","X","X","O","O");
-        $plateau[1] = array("O","O","X","X","X","O","O");
-        $plateau[2] = array("X","X","X","X","X","X","X");
-        $plateau[3] = array("X","X","X","X","X","X","X");
-        $plateau[4] = array("X","X","X","X","X","X","X");
-        $plateau[5] = array("O","O","X","X","X","O","O");
-        $plateau[6] = array("O","O","X","X","X","O","O");
-
-        $plateau[$_SESSION['pion_supprime_x']][$_SESSION['pion_supprime_y']] = "O";
-
-        for ($i=0; $i <7; $i++) {
-          echo "<br/>";
-          for ($j=0; $j <7 ; $j++) {
-            if($plateau[$i][$j] == "X"){
-              $plateau[$i][$j] = "<img src='css/img/bille.png' alt='bille'>";
-            }
-            if($plateau[$i][$j] == "O"){
-              $plateau[$i][$j] = "<img src='css/img/vide.png' alt='vide'>";
-            }
-            echo $plateau[$i][$j];
-          }
-        }
-        ?>
-
+        <p>Impossible de supprimer cette bille, elle n'existe pas !</p>
         <form action="index.php" method="post">
-          <br/>
-          <p> Impossible de selectionner cette bille ! </p>
-          <label for="coordonnees_tomove_x">Indiquer la ligne du pion à déplacer</label>
-          <input type="number" name="coordonnees_tomove_x" value="1" min="1" max="7"> <br/>
-          <label for="coordonnees_tomove_y">Indiquer la colonne du pion à déplacer</label>
-          <input type="number" name="coordonnees_tomove_y" value="1" min="1" max="7"><br/>
+        <label for="coordonnees_remove_x">Indiquer la ligne de la bille à supprimer</label>
+        <input type="number" name="coordonnees_remove_x" value="1" min="1" max="6"> <br/>
+        <label for="coordonnees_remove_y">Indiquer la colonne de la bille à supprimer</label>
+        <input type="number" name="coordonnees_remove_y" value="1" min="1" max="6"><br/>
 
-          <input type="submit" name="selection_pion" value="Selectionner le pion">
-        </form>
+        <input type="submit" name="jouer" value="Jouer">
+      </form>
+  </body>
+  </html>
 
-      </body>
+  <?php
+  }
+
+  function formErreurSelectionnerBille(){ ?>
+  <html>
+    <body>
+      <p>Impossible de sélectionner cette bille</p>
+      <form action="index.php" method="post">
+      <label for="coordonnees_tomove_x">Indiquer la ligne de la bille à sélectionner</label>
+      <input type="number" name="coordonnees_tomove_x" value="1" min="1" max="7"> <br/>
+      <label for="coordonnees_tomove_y">Indiquer la colonne de la bille à sélectionner</label>
+      <input type="number" name="coordonnees_tomove_y" value="1" min="1" max="7"><br/>
+
+      <input type="submit" name="selection_pion" value="Selectionner la bille">
+    </form>
+  </body>
   </html>
   <?php
+  }
+
+  function formErreurDeplacerBille(){?>
+    <html>
+    <body>
+      <form action="index.php" method="post">
+      <p>Impossible de déplacer cette bille</p>
+      <label for="coordonnees_moved_x">Indiquer la ligne de la case à atteindre</label>
+      <input type="number" name="coordonnees_moved_x" value="1" min="1" max="7"> <br/>
+      <label for="coordonnees_moved_y">Indiquer la colonne de la case à atteindre</label>
+      <input type="number" name="coordonnees_moved_y" value="1" min="1" max="7"><br/>
+
+      <input type="submit" name="deplacer" value="Déplacer la bille">
+    </form>
+    </body>
+    </html>
+  <?php
+  }
+
+  function afficherPlateau(){
+    for ($i=0; $i <7; $i++) {
+      echo "<br/>";
+      for ($j=0; $j <7 ; $j++) {
+        if($_SESSION['plateau'][$i][$j] == "X"){
+          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille.png' alt='bille'>";
+        }
+        if($_SESSION['plateau'][$i][$j] == "O"){
+          $_SESSION['plateau'][$i][$j] = "<img src='css/img/vide.png' alt='vide'>";
+        }
+        if($_SESSION['plateau'][$i][$j] == "+"){
+          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille_selection.png' alt='sel'>";
+        }
+        echo $_SESSION['plateau'][$i][$j];
+      }
+    }
+    echo $_SESSION['plateau'][$i][$j];
+  }
+
+  function erreurSuppression(){
+    $this->afficherPlateau();
+    $this->formErreurSupprimerBille();
+  }
+
+  function erreurSelection(){
+    $this->afficherPlateau();
+    $this->formErreurSelectionnerBille();
   }
 }
 ?>

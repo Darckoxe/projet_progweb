@@ -33,7 +33,7 @@ function verif($pseudo, $password){
     $mdpBdd = $this->dao->getPassword($pseudo); // mot de passe crypté de la bdd
 
     if (crypt($password,$mdpBdd) == $mdpBdd) {
-      $this->vue_partie->accueil();
+      $this->vue_partie->initPlateau();
       return;
     }
     else{
