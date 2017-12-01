@@ -20,13 +20,32 @@ $this->vue_accueil=new VueAccueil();
 $this->vue_erreur=new VueErreur();
 $this->vue_partie=new VuePartie();
 $this->vue_resultat=new VueResultat();
-
 $this->dao = new Dao();
+
 }
 
-function accueil(){
-    $this->vue_accueil->accueil();
+function connexion(){
+    $this->vue_accueil->formConnexion();
     return;
+}
+
+function inscription(){
+    $this->vue_accueil->formInscription();
+    return;
+}
+
+function confirmInscription($pseudo, $password){
+  if($this->dao->getPseudo($pseudo) != null){ // si le pseudo existe déjà
+    $this->vue_erreur->inscriptionExiste();
+    return;
+  }
+  else{
+    $password = crypt($password); // on crypte le mot de passe
+    $this->dao->ajouterJoueur($pseudo,$password);
+    $this->dao->ajouterJoueurPartie($pseudo);
+    $this->vue_accueil->confirmInscription();
+    return;
+  }
 }
 
 function verif($pseudo, $password){

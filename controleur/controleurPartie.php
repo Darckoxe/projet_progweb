@@ -25,6 +25,13 @@ $this->dao = new Dao();
 }
 
 function supprimerBille($x_del,$y_del){
+  if ($x_del == null) {
+    if ($y_del == null) {
+      $this->vue_partie->initPlateau();
+      return;
+    }
+  }
+
   if (($x_del<=2) || ($x_del >=6)){ // Si on sélectionne une case vide
     if (($y_del<=2) || ($y_del>=6)) {
       $this->vue_erreur->erreurSuppression();
@@ -55,6 +62,10 @@ function selectionnerBille($x_sel,$y_sel){
   }
 
 /* Gérer l'erreur où on sélectionne une case vide */
+  if ($x_sel == $_SESSION['x_del']) {
+    $this->vue_erreur->erreurSelection();
+    return;
+  }
 
     $x_sel = $x_sel-1;
     $y_sel = $y_sel-1;

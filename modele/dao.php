@@ -43,24 +43,61 @@ public function __construct(){
   }
 }
 
-
 // A développer
 // méthode qui permet de se deconnecter de la base
 public function deconnexion(){
    $this->connexion=null;
 }
 
-
-
 public function getPassword($pseudo){
+  try {
     $statement = $this->connexion->prepare("select motDePasse from joueurs where pseudo = ?");
     $statement->bindParam(1, $pseudo);
     $statement->execute();
     $hashPass = $statement->fetch();
-    $this->deconnexion();
-
     return $hashPass['motDePasse'];
+  }
+  catch (PDOException $e) {
+    $this->deconnexion();
   }
 }
 
+public function getPseudo($pseudo){
+  try {
+    $statement = $this->connexion->prepare("select pseudo from joueurs where pseudo = ?");
+    $statement->bindParam(1, $pseudo);
+    $statement->execute();
+    $res = $statement->fetch();
+    return $res['pseudo'];
+  }
+  catch (PDOException $e) {
+    $this->deconnexion();
+  }
+}
+
+public function ajouterJoueur($pseudo,$password){
+  try {
+    $statement = $this->connexion->prepare('insert into joueurs (pseudo,motDePasse) values (?,?)');
+    $statement->bindParam(1, $pseudo);
+    $statement->bindParam(2, $password);
+    $statement->execute();
+  }
+  catch (PDOException $e) {
+    $this->deconnexion();
+    }
+  }
+public function ajouterJoueurPartie($pseudo){ // function qui permet d'ajouter une ligne dans la table parties
+    $stmt= $this->connexion->prepare("insert into parties (partieGagnee,partieJouee,pseudo) values(0,0,?)");
+    $stmt->bindParam(1, $pseudo);
+    $stmt->execute();
+  }
+
+public function getStatsPerso($pseudo){
+    $stmt=$this->connexion->prepare("select * from parties where pseudo = ?");
+    $stmt->bindParam(1, $pseudo);
+    $stmt->execute();
+    $res = $statement->fetchAll();
+    return $res['pseudo']."a joué ".$res['partieJouee']." et a gagné ".$res['partieGagnee'];
+  }
+}
 ?>

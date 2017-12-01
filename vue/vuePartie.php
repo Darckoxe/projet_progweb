@@ -6,11 +6,14 @@ class VuePartie{
       <form action="index.php" method="post">
         <br/>
         <label for="coordonnees_remove_x">Indiquer la ligne de la bille à supprimer</label>
-        <input type="number" name="coordonnees_remove_x" value="1" min="1" max="6"> <br/>
+        <input type="number" name="coordonnees_remove_x" value="1" min="1" max="7"> <br/>
         <label for="coordonnees_remove_y">Indiquer la colonne de la bille à supprimer</label>
-        <input type="number" name="coordonnees_remove_y" value="1" min="1" max="6"><br/>
-
+        <input type="number" name="coordonnees_remove_y" value="1" min="1" max="7"><br/>
         <input type="submit" name="jouer" value="Jouer">
+      </form>
+      <form>
+        <input type="txt" name="stats" value="1" hidden>
+        <input type="submit" name="stats" value="Voir mes stats">
       </form>
   </body>
   </html>
@@ -30,6 +33,10 @@ class VuePartie{
 
       <input type="submit" name="selection_pion" value="Selectionner la bille">
     </form>
+    <form class="" action="index.php" method="post">
+      <input type="submit" name="nouvelle_partie" value="Nouvelle partie">
+    </form>
+
   </body>
   </html>
   <?php
@@ -46,6 +53,9 @@ class VuePartie{
       <input type="number" name="coordonnees_moved_y" value="1" min="1" max="7"><br/>
 
       <input type="submit" name="deplacer" value="Déplacer la bille">
+    </form>
+    <form class="" action="index.php" method="post">
+      <input type="submit" name="nouvelle_partie" value="Nouvelle partie">
     </form>
     </body>
     </html>
