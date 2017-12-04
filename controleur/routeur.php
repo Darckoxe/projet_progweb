@@ -27,19 +27,29 @@ class Routeur {
       return;
     }
 
-    if ((isset($_POST['coordonnees_remove_x'])) && (isset($_POST['coordonnees_remove_y']))) {
-      $this->ctrlPartie->supprimerBille($_POST['coordonnees_remove_x'],$_POST['coordonnees_remove_y']);
+    // if ((isset($_POST['coordonnees_remove_x'])) && (isset($_POST['coordonnees_remove_y']))) {
+    //   $this->ctrlPartie->supprimerBille($_POST['coordonnees_remove_x'],$_POST['coordonnees_remove_y']);
+    //   return;
+    // }
+
+    if(isset($_GET['selectionnerBille'])){
+      $this->ctrlPartie->selectionnerBille($_GET['i'], $_GET['j']);
       return;
     }
 
-    if(isset($_POST['coordonnees_tomove_x']) && isset($_POST['coordonnees_tomove_y'])){
-      $this->ctrlPartie->selectionnerBille($_POST['coordonnees_tomove_x'], $_POST['coordonnees_tomove_y']);
+    if(isset($_GET['selectionnerCase'])){
+      $this->ctrlPartie->selectionnerCase($_GET['i'], $_GET['j']);
       return;
     }
 
-    if (isset($_POST['coordonnees_moved_x']) && isset($_POST['coordonnees_moved_y'])) {
-      $this->ctrlPartie->deplacerBille($_POST['coordonnees_moved_x'],$_POST['coordonnees_moved_y']);
+    if (isset($_GET['deplacerBille'])) {
+      $this->ctrlPartie->deplacerBille($_GET['i'],$_GET['j']);
       // $this->ctrlPartie->testVictoire();
+      return;
+    }
+
+    if (isset($_GET['supprimerBille'])) {
+      $this->ctrlPartie->supprimerBille($_GET['i'],$_GET['j']);
       return;
     }
 

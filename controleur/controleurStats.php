@@ -28,7 +28,8 @@ $this->dao = new Dao();
 
 function voirStats($pseudo){
   $stats = $this->dao->getStatsPerso($pseudo);
-  $this->vue_stats->voirStatsPerso($stats);
+  $classement = $this->dao->getClassement();
+  $this->vue_stats->voirStatsPerso($stats,$classement);
   return;
   }
 }

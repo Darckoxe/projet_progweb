@@ -87,17 +87,47 @@ public function ajouterJoueur($pseudo,$password){
     }
   }
 public function ajouterJoueurPartie($pseudo){ // function qui permet d'ajouter une ligne dans la table parties
+  try {
     $stmt= $this->connexion->prepare("insert into parties (partieGagnee,partieJouee,pseudo) values(0,0,?)");
     $stmt->bindParam(1, $pseudo);
     $stmt->execute();
+  } catch (PDOException $e) {
+    $this->deconnexion();
+    }
   }
 
 public function getStatsPerso($pseudo){
+  try {
     $stmt=$this->connexion->prepare("select * from parties where pseudo = ?");
     $stmt->bindParam(1, $pseudo);
     $stmt->execute();
-    $res = $statement->fetchAll();
-    return $res['pseudo']."a joué ".$res['partieJouee']." et a gagné ".$res['partieGagnee'];
+    $res = $stmt->fetch();
+    if ($res['partieGagnee'] == 0) {
+      return "Connecté sous le pseudo de ".$res['pseudo']." vous avez joué ".$res['partieJouee']." parties et gagné ".$res['partieGagnee']." parties soit un ratio de victoire de 0";
+    }
+    return "Connecté sous le pseudo de ".$res['pseudo']." vous avez joué ".$res['partieJouee']." parties et gagné ".$res['partieGagnee']." parties soit un ratio de victoire de ".$res['partieGagnee']/$res['partieJouee'];
+  } catch (PDOException $e) {
+    $this->deconnexion();
+    }
+  }
+
+public function getPartieGagnee($pseudo){
+  $stmt=$this->connexion->prepare("select * from parties where pseudo = ?");
+  $stmt->bindParam(1, $pseudo);
+  $stmt->execute();
+  $res = $stmt->fetch();
+  return $res['partieGagnee'];
+  }
+
+public function getClassement(){
+  $stmt=$this->connexion->query("SELECT pseudo, (partieGagnee / partieJouee) AS ratio FROM parties where partieJouee > 0 order by ratio desc limit 3");
+  $stmt->execute();
+  $res = $stmt->fetchAll();
+  return $res;
+  // foreach ($res as $row) {
+  //   return $row['pseudo']." a un ratio de victoire de ".$row['ratio']."<br/>";
+  // }
+  // SELECT pseudo, (partieGagnee / partieJouee) AS ratio FROM parties where partieJouee > 0 order by ratio desc limit 3
   }
 }
 ?>

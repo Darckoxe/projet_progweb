@@ -73,22 +73,10 @@ class VuePartie{
     $plateau[6] = array("O","O","X","X","X","O","O");
 
     $_SESSION['plateau'] = $plateau;
+    $_SESSION['nb_bille']= 33;
 
-    for ($i=0; $i <7; $i++) {
-      echo "<br/>";
-      for ($j=0; $j <7 ; $j++) {
-        if($_SESSION['plateau'][$i][$j] == "X"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille.png' alt='bille'>";
-        }
-        if($_SESSION['plateau'][$i][$j] == "O"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/vide.png' alt='vide'>";
-        }
-        if($_SESSION['plateau'][$i][$j] == "+"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille_selection.png' alt='sel'>";
-        }
-        echo $_SESSION['plateau'][$i][$j];
-      }
-    }
+    $this->afficherPlateau();
+
   }
 
   function afficherPlateau(){
@@ -96,18 +84,58 @@ class VuePartie{
       echo "<br/>";
       for ($j=0; $j <7 ; $j++) {
         if($_SESSION['plateau'][$i][$j] == "X"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille.png' alt='bille'>";
+          if($_SESSION['nb_bille'] == 33){
+            ?>
+            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
+          if ($_SESSION['nb_bille'] <= 32) {
+            ?>
+            <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+            ?>
+            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
         }
         if($_SESSION['plateau'][$i][$j] == "O"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/vide.png' alt='vide'>";
+          if($_SESSION['nb_bille'] == 33){
+            ?>
+            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
+            <?php
+          }
+          if ($_SESSION['nb_bille'] <= 32) {
+            ?>
+            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
+            <?php
+          }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+            ?>
+            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
         }
         if($_SESSION['plateau'][$i][$j] == "+"){
-          $_SESSION['plateau'][$i][$j] = "<img src='css/img/bille_selection.png' alt='sel'>";
+          if($_SESSION['nb_bille'] == 33){
+            ?>
+            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
+            <?php
+          }
+          if ($_SESSION['nb_bille'] <= 32) {
+            ?>
+            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
+            <?php
+          }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+            ?>
+            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
         }
-        echo $_SESSION['plateau'][$i][$j];
       }
     }
-    echo $_SESSION['plateau'][$i][$j];
   }
 
   function initPlateau(){
@@ -120,6 +148,7 @@ class VuePartie{
     $_SESSION['x_del'] = $x_del;
     $_SESSION['y_del'] = $y_del;
     $_SESSION['plateau'][$x_del][$y_del] = "O";
+    $_SESSION['nb_bille'] = $_SESSION['nb_bille']-1 ;
     $this->afficherPlateau();
     $this->formSelectionnerBille();
   }
