@@ -62,6 +62,16 @@ public function getPassword($pseudo){
   }
 }
 
+/* SOMMAIRE :
+getPseudo($pseudo)
+ajouterJoueur($pseudo,$password)
+ajouterJoueurPartie($pseudo) --> function qui permet d'ajouter une ligne dans la table parties
+getStatsPerso($pseudo)
+getPartieGagnee($pseudo)
+getClassement()
+*/
+
+
 public function getPseudo($pseudo){
   try {
     $statement = $this->connexion->prepare("select pseudo from joueurs where pseudo = ?");
@@ -86,7 +96,7 @@ public function ajouterJoueur($pseudo,$password){
     $this->deconnexion();
     }
   }
-public function ajouterJoueurPartie($pseudo){ // function qui permet d'ajouter une ligne dans la table parties
+  public function ajouterJoueurPartie($pseudo){ // function qui permet d'ajouter une ligne dans la table parties
   try {
     $stmt= $this->connexion->prepare("insert into parties (partieGagnee,partieJouee,pseudo) values(0,0,?)");
     $stmt->bindParam(1, $pseudo);
@@ -124,10 +134,21 @@ public function getClassement(){
   $stmt->execute();
   $res = $stmt->fetchAll();
   return $res;
-  // foreach ($res as $row) {
-  //   return $row['pseudo']." a un ratio de victoire de ".$row['ratio']."<br/>";
-  // }
-  // SELECT pseudo, (partieGagnee / partieJouee) AS ratio FROM parties where partieJouee > 0 order by ratio desc limit 3
+  }
+
+public function getPartieJouee($pseudo){
+  $stmt=$this->connexion->prepare("select * from parties where pseudo = ?");
+  $stmt->bindParam(1, $pseudo);
+  $stmt->execute();
+  $res = $stmt->fetch();
+  return $res['partieJouee'];
+  }
+
+public function updatePartieJouee($nbPartieJouee,$pseudo){
+  $stmt=$this->connexion->prepare("UPDATE parties SET partieJouee = ? WHERE pseudo = ?");
+  $stmt->bindParam(1, $nbPartieJouee);
+  $stmt->bindParam(2, $pseudo);
+  $stmt->execute();
   }
 }
 ?>

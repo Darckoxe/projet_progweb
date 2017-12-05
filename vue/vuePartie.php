@@ -1,67 +1,5 @@
 <?php
 class VuePartie{
-  function formSupprimerBille(){?>
-    <html>
-      <body>
-      <form action="index.php" method="post">
-        <br/>
-        <label for="coordonnees_remove_x">Indiquer la ligne de la bille à supprimer</label>
-        <input type="number" name="coordonnees_remove_x" value="1" min="1" max="7"> <br/>
-        <label for="coordonnees_remove_y">Indiquer la colonne de la bille à supprimer</label>
-        <input type="number" name="coordonnees_remove_y" value="1" min="1" max="7"><br/>
-        <input type="submit" name="jouer" value="Jouer">
-      </form>
-      <form>
-        <input type="txt" name="stats" value="1" hidden>
-        <input type="submit" name="stats" value="Voir mes stats">
-      </form>
-  </body>
-  </html>
-
-  <?php
-  }
-
-  function formSelectionnerBille(){ ?>
-  <html>
-    <body>
-    <form action="index.php" method="post">
-      <br/>
-      <label for="coordonnees_tomove_x">Indiquer la ligne de la bille à sélectionner</label>
-      <input type="number" name="coordonnees_tomove_x" value="1" min="1" max="7"> <br/>
-      <label for="coordonnees_tomove_y">Indiquer la colonne de la bille à sélectionner</label>
-      <input type="number" name="coordonnees_tomove_y" value="1" min="1" max="7"><br/>
-
-      <input type="submit" name="selection_pion" value="Selectionner la bille">
-    </form>
-    <form class="" action="index.php" method="post">
-      <input type="submit" name="nouvelle_partie" value="Nouvelle partie">
-    </form>
-
-  </body>
-  </html>
-  <?php
-  }
-
-  function formDeplacerBille(){?>
-    <html>
-    <body>
-    <form action="index.php" method="post">
-      <br/>
-      <label for="coordonnees_moved_x">Indiquer la ligne de la case à atteindre</label>
-      <input type="number" name="coordonnees_moved_x" value="1" min="1" max="7"> <br/>
-      <label for="coordonnees_moved_y">Indiquer la colonne de la case à atteindre</label>
-      <input type="number" name="coordonnees_moved_y" value="1" min="1" max="7"><br/>
-
-      <input type="submit" name="deplacer" value="Déplacer la bille">
-    </form>
-    <form class="" action="index.php" method="post">
-      <input type="submit" name="nouvelle_partie" value="Nouvelle partie">
-    </form>
-    </body>
-    </html>
-  <?php
-  }
-
   function creerPlateau(){
     $plateau = array(); // On crée une matrice
     $plateau[0] = array("O","O","X","X","X","O","O");
@@ -76,125 +14,110 @@ class VuePartie{
     $_SESSION['nb_bille']= 33;
 
     $this->afficherPlateau();
-
   }
 
   function afficherPlateau(){
+    echo "<html>";
+    echo "<head>";
+    echo "<link rel=\"stylesheet\" href=\"css/sheet.css\" />";
+    echo "</head>";
+    echo "<body>";
+    echo "<table>";
     for ($i=0; $i <7; $i++) {
-      echo "<br/>";
+      echo "<tr>";
       for ($j=0; $j <7 ; $j++) {
         if($_SESSION['plateau'][$i][$j] == "X"){
+            echo "<td class=\"case_utilisable\">";
           if($_SESSION['nb_bille'] == 33){
             ?>
-            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+              <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
             <?php
           }
-          if ($_SESSION['nb_bille'] <= 32) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['supprimerBille']))) {
             ?>
             <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
             <?php
           }
-          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerBille']))) {
             ?>
-            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <a href="index.php?selectionnerCase<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
             <?php
           }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerCase']))) {
+            ?>
+            <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <?php
+          }
+          echo "</td>";
         }
         if($_SESSION['plateau'][$i][$j] == "O"){
+          echo "<td>";
           if($_SESSION['nb_bille'] == 33){
             ?>
             <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
             <?php
           }
-          if ($_SESSION['nb_bille'] <= 32) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['supprimerBille']))) {
             ?>
-            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
+            <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
             <?php
           }
-          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerBille']))) {
             ?>
-            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <a href="index.php?selectionnerCase<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
             <?php
           }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerCase']))) {
+            ?>
+            <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/vide.png' alt='vide'></a>
+            <?php
+          }
+          echo "</td>";
         }
         if($_SESSION['plateau'][$i][$j] == "+"){
+          echo "<td>";
           if($_SESSION['nb_bille'] == 33){
             ?>
             <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
             <?php
           }
-          if ($_SESSION['nb_bille'] <= 32) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['supprimerBille']))) {
             ?>
-            <a href="index.php?supprimerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
+            <a href="index.php?selectionBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='vide'></a>
             <?php
           }
-          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['deplacerBille']))) {
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerBille']))) {
             ?>
-            <a href="index.php?deplacerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille.png' alt='bille'></a>
+            <a href="index.php?selectionnerCase<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
             <?php
           }
+          if (($_SESSION['nb_bille'] <= 32) && (isset($_GET['selectionnerCase']))) {
+            ?>
+            <a href="index.php?selectionnerBille<?php echo "&i=".$i;?><?php echo "&j=".$j;?>"><img src='css/img/bille_selection.png' alt='bille_selection'></a>
+            <?php
+          }
+          echo "</td>";
         }
       }
+      echo "</tr>";
     }
+    echo "</table>";
+    echo "</body>";
+    echo "</html>";
   }
 
   function initPlateau(){
-        echo "Bienvenue sur le plateau de jeu du solitaire !."."\n"."Supprimez une bille pour commencer";
-        $this->creerPlateau();
-        $this->formSupprimerBille();
-    }
+    echo "<html>";
+    echo "<head>";
+    echo "<link rel=\"stylesheet\" href=\"css/sheet.css\" />";
+    echo "</head>";
+    echo "<body>";
+    $this->creerPlateau();
+    echo "<p> Pour commencer à jouer, supprimer une bille de votre choix. </p>";
+    echo "</body>";
+    echo "</html>";
 
-  function supprimerBille($x_del,$y_del){ // coordonnées de la bille à supprimer
-    $_SESSION['x_del'] = $x_del;
-    $_SESSION['y_del'] = $y_del;
-    $_SESSION['plateau'][$x_del][$y_del] = "O";
-    $_SESSION['nb_bille'] = $_SESSION['nb_bille']-1 ;
-    $this->afficherPlateau();
-    $this->formSelectionnerBille();
-  }
 
-  function selectionBille($x_sel,$y_sel){ // coordonnées de la bille à selectionner
-    $_SESSION['x_sel'] = $x_sel;
-    $_SESSION['y_sel'] = $y_sel;
-    $_SESSION['plateau'][$x_sel][$y_sel] = "+"; // on sélectionne la bille
-    $this->afficherPlateau();
-    $this->formDeplacerBille();
-  }
-
-  function deplacerBille($x_move,$y_move){ // coordonnées de la case à atteindre
-    $_SESSION['x_move'] = $x_move;
-    $_SESSION['y_move'] = $y_move;
-    $_SESSION['plateau'][$x_move][$y_move] = "X"; // on met la bille sélectionnée sur la case à atteindre
-    $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O"; // on retire la bille qui a bougé de la case initiale
-
-    /* Suppression de la bille sautée */
-
-    if ($_SESSION['x_sel'] - $x_move == 0) { // La bille est déplacée sur la ligne
-      if(($_SESSION['y_sel'] - $y_move) < 0){
-        $x_saute = $_SESSION['x_sel'];
-        $y_saute = $_SESSION['y_sel']+1;
-      }
-      else{
-        $x_saute = $_SESSION['x_sel'];
-        $y_saute = $_SESSION['y_sel']-1;
-      }
-    }
-
-    if($_SESSION['y_sel'] - $y_move == 0) { // La bille est déplacée sur la colonne
-      if(($_SESSION['x_sel'] - $x_move) < 0){
-        $x_saute = $_SESSION['x_sel']+1;
-        $y_saute = $_SESSION['y_sel'];
-      }
-      else{
-        $x_saute = $_SESSION['x_sel']-1;
-        $y_saute = $_SESSION['y_sel'];
-      }
-    }
-
-    $_SESSION['plateau'][$x_saute][$y_saute] = "O"; // On supprime la bille sautée
-
-    $this->afficherPlateau();
-    $this->formSelectionnerBille();
   }
 }
 ?>

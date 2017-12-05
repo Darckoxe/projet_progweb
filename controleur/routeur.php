@@ -4,9 +4,6 @@ require_once 'controleurAuthentification.php';
 require_once 'controleurPartie.php';
 require_once 'controleurStats.php';
 
-
-
-
 class Routeur {
 
   private $ctrlAuthentification;
@@ -27,29 +24,24 @@ class Routeur {
       return;
     }
 
-    // if ((isset($_POST['coordonnees_remove_x'])) && (isset($_POST['coordonnees_remove_y']))) {
-    //   $this->ctrlPartie->supprimerBille($_POST['coordonnees_remove_x'],$_POST['coordonnees_remove_y']);
-    //   return;
-    // }
+    if (isset($_GET['supprimerBille'])) {
+      $this->ctrlPartie->supprimerBille($_GET['i'],$_GET['j']);
+      $this->ctrlStats->incrementerPartieJouee($_SESSION['pseudo']);
+      return;
+    }
 
-    if(isset($_GET['selectionnerBille'])){
+    if(isset($_GET['selectionnerBille'])){ // ON sélectionne la bille à déplacer
       $this->ctrlPartie->selectionnerBille($_GET['i'], $_GET['j']);
       return;
     }
 
-    if(isset($_GET['selectionnerCase'])){
+    if(isset($_GET['selectionnerCase'])){ // On sélectionne la case où on veut déplacer la bille
       $this->ctrlPartie->selectionnerCase($_GET['i'], $_GET['j']);
       return;
     }
 
-    if (isset($_GET['deplacerBille'])) {
+    if (isset($_GET['deplacerBille'])) { // La fonction déplace la bille
       $this->ctrlPartie->deplacerBille($_GET['i'],$_GET['j']);
-      // $this->ctrlPartie->testVictoire();
-      return;
-    }
-
-    if (isset($_GET['supprimerBille'])) {
-      $this->ctrlPartie->supprimerBille($_GET['i'],$_GET['j']);
       return;
     }
 

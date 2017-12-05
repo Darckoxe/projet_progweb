@@ -32,5 +32,12 @@ function voirStats($pseudo){
   $this->vue_stats->voirStatsPerso($stats,$classement);
   return;
   }
+
+function incrementerPartieJouee($pseudo){
+  $nbPartieJouee = $this->dao->getPartieJouee($pseudo);
+  $nbPartieJouee = $nbPartieJouee+1;
+  $this->dao->updatePartieJouee($nbPartieJouee,$pseudo);
+  return;
+  }
 }
 ?>
