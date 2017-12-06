@@ -1,6 +1,8 @@
-table{
-  margin: auto;
-  margin-top: 5%;
+.case_interdite{
+  background-color: white;
+}
+.case_bille{
+  background-color: #4d79ff;
 }
 td{
   background-color: red;

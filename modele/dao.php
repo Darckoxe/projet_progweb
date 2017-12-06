@@ -150,5 +150,12 @@ public function updatePartieJouee($nbPartieJouee,$pseudo){
   $stmt->bindParam(2, $pseudo);
   $stmt->execute();
   }
+
+public function updatePartieGagnee($nbPartieGagnee,$pseudo){
+    $stmt=$this->connexion->prepare("UPDATE parties SET partieGagnee = ? WHERE pseudo = ?");
+    $stmt->bindParam(1, $nbPartieGagnee);
+    $stmt->bindParam(2, $pseudo);
+    $stmt->execute();
+    }
 }
 ?>

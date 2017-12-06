@@ -26,5 +26,23 @@ Class VueErreur{
       </body>
     </html>
   <?php }
+
+  function erreurSuppression(){
+    echo "Impossible de supprimer cette bille";
+    echo "<br/>";
+    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
+  }
+
+  function erreurSelectionBille(){
+    echo "Impossible de sélectionner cette bille";
+    echo "<br/>";
+    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
+  }
+
+  function erreurSelectionCase(){
+    echo "Impossible de déplacer la bille";
+    echo "<br/>";
+    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
+  }
 }
 ?>

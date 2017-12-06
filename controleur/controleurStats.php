@@ -30,6 +30,8 @@ function voirStats($pseudo){
   $stats = $this->dao->getStatsPerso($pseudo);
   $classement = $this->dao->getClassement();
   $this->vue_stats->voirStatsPerso($stats,$classement);
+  echo "<br />";
+  $this->vue_partie->formRetourJeu();
   return;
   }
 
@@ -38,6 +40,18 @@ function incrementerPartieJouee($pseudo){
   $nbPartieJouee = $nbPartieJouee+1;
   $this->dao->updatePartieJouee($nbPartieJouee,$pseudo);
   return;
+  }
+
+function incrementerPartieGagnee($pseudo){
+  if($_SESSION['nb_bille'] == 1){
+    $nbPartieGagnee = $this->dao->getPartieGagnee($pseudo);
+    $nbPartieGagnee = $nbPartieGagnee+1;
+    $this->dao->updatePartieGagnee($nbPartieGagnee,$pseudo);
+    return;
+  }
+  else{
+    return;
+    }
   }
 }
 ?>
