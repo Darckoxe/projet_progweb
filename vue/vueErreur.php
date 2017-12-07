@@ -32,17 +32,23 @@ dans la base de données */
   <?php }
 
 /* Fonction qui affcihe une erreur si on sélectionne une bille impossible */
-  function erreurSelectionBille(){
-    echo "Impossible de sélectionner cette bille";
-    echo "<br/>";
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
-  }
+  function erreurSelectionBille(){ ?>
+    <html>
+      <body>
+        <p> Impossible de sélectionner cette bille </p>
+      </body>
+    </html>
+  <?php
+}
 
 /* Fonction qui affiche une erreur si on veut déplacer une bille de facon illégale */
-  function erreurSelectionCase(){
-    echo "Impossible de déplacer la bille";
-    echo "<br/>";
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
+  function erreurSelectionCase(){?>
+    <html>
+      <body>
+        <p> Impossible de déplacer la bille </p>
+      </body>
+    </html>
+    <?php
   }
 }
 ?>

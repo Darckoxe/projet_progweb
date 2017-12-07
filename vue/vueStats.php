@@ -1,7 +1,9 @@
 <?php
 class VueStats{
+
 /* Fonction qui permet de voir ses stats personnelles et générales */
-function voirStatsPerso($stats,$classement){?>
+function voirStatsPerso($stats,$classement){
+  ?>
   <html>
     <body>
       <h1> Vos stats personnelles </h1>
@@ -15,6 +17,17 @@ function voirStatsPerso($stats,$classement){?>
     </body>
 </html>
 <?php
+  }
+
+/* Bouton pour revenir de la page des statistiques au jeu */
+  function formRetourJeu(){
+    ?>
+    <html>
+      <body>
+        <a href="index.php?retour_jeu"><button>Retour</button></a>
+      </body>
+    </html>
+    <?php
   }
 }
 ?>

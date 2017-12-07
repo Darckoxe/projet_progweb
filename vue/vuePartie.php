@@ -1,13 +1,22 @@
 <?php
 class VuePartie{
+
+  function formTexteDebut(){
+  ?>
+  <html>
+    <body>
+      <p> Pour commencer à jouer, cliquer sur une bille pour la supprimer. </p>
+    </body>
+  </html>
+  <?php
+    }
+
   /* Bouton pour lancer une nouvelle partie */
   function formNouvellePartie(){
   ?>
   <html>
     <body>
-        <form method="post" action="index.php">
-          <input type="submit" name="nouvelle_partie" value="Nouvelle partie"/>
-        </form>
+          <a href="index.php?nouvelle_partie"><button>Nouvelle partie</button></a>
     </body>
   </html>
   <?php
@@ -17,7 +26,7 @@ class VuePartie{
   ?>
   <html>
     <body>
-      <a href="index.php"> <button> Se deconnecter </button> </a>
+      <a href="index.php?disconnect"><button>Se deconnecter</button></a>
     </body>
   </html>
   <?php
@@ -27,54 +36,12 @@ class VuePartie{
   ?>
   <html>
     <body>
-        <form method="post" action="index.php">
-          <input type="submit" name="stats" value="Voir les statistiques"/>
-        </form>
+      <a href="index.php?statistiques"><button>Voir les statistiques</button></a>
     </body>
   </html>
   <?php
     }
-  /* Bouton pour revenir de la page des statistiques au jeu */
-  function formRetourJeu(){
-    ?>
-    <html>
-      <body>
-          <form method="post" action="index.php">
-            <input type="submit" name="retourJeu" value="Retour"/>
-          </form>
-      </body>
-    </html>
-    <?php
-  }
 
-  /* Fonction qui permet de créer le plateau de jeu. C'est une matrice à deux
-  dimensions. Les cases avec un "/" sont les cases interdites. Les cases avec un
-  "X" sont les cases où il y a une bille et les cases avec un "O" sont les
-  cases vides. Le plateau est stocké dans une variable de session pour
-  pouvoir le réutiliser partout */
-  function creerPlateau(){
-    $plateau = array();
-    $plateau[0] = array("/","/","X","X","X","/","/");
-    $plateau[1] = array("/","/","X","X","X","/","/");
-    $plateau[2] = array("X","X","X","X","X","X","X");
-    $plateau[3] = array("X","X","X","X","X","X","X");
-    $plateau[4] = array("X","X","X","X","X","X","X");
-    $plateau[5] = array("/","/","X","X","X","/","/");
-    $plateau[6] = array("/","/","X","X","X","/","/");
-
-    $_SESSION['plateau'] = $plateau;
-    $_SESSION['nb_bille']= 33;
-
-    $this->afficherPlateau();
-  }
-/* Fonction qui permet d'initialiser le plateau avec un message */
-  function initPlateau(){
-    $this->creerPlateau();
-    echo "Pour commencer à jouer, cliquer sur une bille pour la supprimer.";
-    echo "<br/>";
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
-
-  }
 /* Fonction qui permet d'afficher le plateau en fonction de l'état de la case, de
 la variable de session error et de l'état des liens ainsi que du nombre de billes restantes. */
   function afficherPlateau(){

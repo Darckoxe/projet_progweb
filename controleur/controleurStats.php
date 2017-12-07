@@ -2,7 +2,6 @@
 require_once PATH_VUE."/vueAccueil.php";
 require_once PATH_VUE."/vueErreur.php";
 require_once PATH_VUE."/vuePartie.php";
-require_once PATH_VUE."/vueResultat.php";
 require_once PATH_VUE."/vueStats.php";
 require_once 'modele/dao.php';
 
@@ -12,7 +11,6 @@ class ControleurStats{
 private $vue_accueil;
 private $vue_erreur;
 private $vue_partie;
-private $vue_resultat;
 private $vue_stats;
 private $dao;
 
@@ -21,10 +19,10 @@ function __construct(){
 $this->vue_accueil=new VueAccueil();
 $this->vue_erreur=new VueErreur();
 $this->vue_partie=new VuePartie();
-$this->vue_resultat=new VueResultat();
 $this->vue_stats=new VueStats();
 $this->dao = new Dao();
   }
+
 /* Fonction qui permet de voir les statistiques personnelles et générales */
 function voirStats($pseudo){
   $stats = $this->dao->getStatsPerso($pseudo);
@@ -32,7 +30,7 @@ function voirStats($pseudo){
   $this->vue_stats->voirStatsPerso($stats,$classement);
   $this->vue_partie->formDeconnexion();
   echo "<br />";
-  $this->vue_partie->formRetourJeu();
+  $this->vue_stats->formRetourJeu();
   return;
   }
 

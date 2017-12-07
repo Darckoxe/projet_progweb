@@ -2,8 +2,9 @@
 require_once PATH_VUE."/vueAccueil.php";
 require_once PATH_VUE."/vueErreur.php";
 require_once PATH_VUE."/vuePartie.php";
-require_once PATH_VUE."/vueResultat.php";
 require_once PATH_VUE."/vueStats.php";
+require_once PATH_VUE."/vueResultat.php";
+
 require_once 'modele/dao.php';
 
 class ControleurPartie{
@@ -11,25 +12,41 @@ class ControleurPartie{
 private $vue_accueil;
 private $vue_erreur;
 private $vue_partie;
-private $vue_resultat;
 private $vue_stats;
+private $vue_resultat;
 private $dao;
 
 function __construct(){
 $this->vue_accueil=new VueAccueil();
 $this->vue_erreur=new VueErreur();
 $this->vue_partie=new VuePartie();
-$this->vue_resultat=new VueResultat();
 $this->vue_stats=new VueStats();
+$this->vue_resultat=new VueResultat();
 $this->dao = new Dao();
   }
 
-/* Fonction qui permet de créer une nouvelle partie quand le joueur
-clique sur le bouton "nouvelle partie". La fonction initialise un nouveau
-plateau de jeu */
 function nouvellePartie(){
-  $this->vue_partie->initPlateau();
+  /* Fonction qui permet de créer le plateau de jeu. C'est une matrice à deux
+  dimensions. Les cases avec un "/" sont les cases interdites. Les cases avec un
+  "X" sont les cases où il y a une bille et les cases avec un "O" sont les
+  cases vides. Le plateau est stocké dans une variable de session pour
+  pouvoir le réutiliser partout */
+    $plateau = array();
+    $plateau[0] = array("/","/","X","X","X","/","/");
+    $plateau[1] = array("/","/","X","X","X","/","/");
+    $plateau[2] = array("X","X","X","X","X","X","X");
+    $plateau[3] = array("X","X","X","X","X","X","X");
+    $plateau[4] = array("X","X","X","X","X","X","X");
+    $plateau[5] = array("/","/","X","X","X","/","/");
+    $plateau[6] = array("/","/","X","X","X","/","/");
+
+    $_SESSION['plateau'] = $plateau;
+    $_SESSION['nb_bille']= 33;
+
+  $this->vue_partie->afficherPlateau();
+  $this->vue_partie->formTexteDebut();
   $this->vue_partie->formStats();
+  $this->vue_partie->formDeconnexion();
   return;
 }
 
@@ -38,8 +55,8 @@ La case en question passe à vide ("O") et le nombre de billes est décrémenté
 function supprimerBille($x_del,$y_del){
     $_SESSION['plateau'][$x_del][$y_del] = "O";
     $_SESSION['nb_bille'] = $_SESSION['nb_bille']-1;
+    $this->testVictoire();
     $this->vue_partie->afficherPlateau();
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
     $this->vue_partie->formNouvellePartie();
     $this->vue_partie->formDeconnexion();
     return;
@@ -64,7 +81,6 @@ function selectionnerBille($x_sel,$y_sel){
     $_SESSION['y_sel'] = $y_sel;
     $_SESSION['plateau'][$x_sel][$y_sel] = "+"; // on sélectionne la bille
     $this->vue_partie->afficherPlateau();
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
     $this->vue_partie->formNouvellePartie();
     $this->vue_partie->formDeconnexion();
     return;
@@ -74,19 +90,18 @@ function selectionnerBille($x_sel,$y_sel){
 selectionnée aux coordonnées (x_case;y_case). La fonction vérifie qu'il existe
 bien une bille a la case courante +1 et que la case courante +2 est vide.
 Si c'est le cas, le mouvement est possible. Sinon, on lève une erreur de sélection */
+
 function selectionnerCase($x_case,$y_case){
 // on se déplace vers le haut
   if($x_case - $_SESSION['x_sel'] == -2){
     if ($y_case - $_SESSION['y_sel'] == 0) {
       if ($_SESSION['plateau'][$x_case][$y_case] == "O") {
         if ($_SESSION['plateau'][$x_case+1][$y_case] == "X") {
-          $_SESSION['x_case'] = $x_case;
-          $_SESSION['y_case'] = $y_case;
+          $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O";
+          $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
-          $this->supprimerBilleSautee($x_case,$y_case);
-          $this->perdu();
-          $this->vue_partie->formNouvellePartie();
-          $this->vue_partie->formDeconnexion();
+          $this->supprimerBille($x_case+1,$y_case);
+          // $this->testVictoire();
           return;
         }
       }
@@ -97,13 +112,11 @@ function selectionnerCase($x_case,$y_case){
     if ($x_case - $_SESSION['x_sel'] == 0) {
       if ($_SESSION['plateau'][$x_case][$y_case] == "O") {
         if ($_SESSION['plateau'][$x_case][$y_case-1] == "X") {
-          $_SESSION['x_case'] = $x_case;
-          $_SESSION['y_case'] = $y_case;
+          $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O";
+          $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
-          $this->supprimerBilleSautee($x_case,$y_case);
-          $this->perdu();
-          $this->vue_partie->formNouvellePartie();
-          $this->vue_partie->formDeconnexion();
+          $this->supprimerBille($x_case,$y_case-1);
+          // $this->testVictoire();
           return;
         }
       }
@@ -114,13 +127,11 @@ function selectionnerCase($x_case,$y_case){
     if ($y_case - $_SESSION['y_sel'] == 0) {
       if ($_SESSION['plateau'][$x_case][$y_case] == "O") {
         if ($_SESSION['plateau'][$x_case-1][$y_case] == "X") {
-          $_SESSION['x_case'] = $x_case;
-          $_SESSION['y_case'] = $y_case;
+          $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O";
+          $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
-          $this->supprimerBilleSautee($x_case,$y_case);
-          $this->perdu();
-          $this->vue_partie->formNouvellePartie();
-          $this->vue_partie->formDeconnexion();
+          $this->supprimerBille($x_case-1,$y_case);
+          // $this->testVictoire();
           return;
         }
       }
@@ -131,14 +142,11 @@ function selectionnerCase($x_case,$y_case){
     if ($x_case - $_SESSION['x_sel'] == 0) {
       if ($_SESSION['plateau'][$x_case][$y_case] == "O") {
         if ($_SESSION['plateau'][$x_case][$y_case+1] == "X") {
+          $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O";
+          $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
-          $_SESSION['x_case'] = $x_case;
-          $_SESSION['y_case'] = $y_case;
-          $this->supprimerBilleSautee($x_case,$y_case);
-          $this->perdu();
-          $this->gagne();
-          $this->vue_partie->formNouvellePartie();
-          $this->vue_partie->formDeconnexion();
+          $this->supprimerBille($x_case,$y_case+1);
+          // $this->testVictoire();
           return;
         }
       }
@@ -146,58 +154,18 @@ function selectionnerCase($x_case,$y_case){
   }
   $_SESSION['error'] = true;
   $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "X";
+  // $this->testVictoire();
   $this->vue_partie->afficherPlateau();
   $this->vue_erreur->erreurSelectionCase();
   $this->vue_partie->formNouvellePartie();
   $this->vue_partie->formDeconnexion();
   return;
 }
-/* Fonction qui permet de supprimer la bille sautée par la bille qui est
-déplacée aux coordonnées (x_case;y_case). On regarde aux coordonnées de la bille
-sélectionnée où se situe la bille à sauter. Une fois trouvée, la bille sautée
-passe à vide aux coordonnées (x_saute;y_saute) et la bille sélectionnée passe
-aussi à vide aux coordonnéesdes variables de session (x_sel;y_sel). La case aux
-coordonnées (x_case;y_case) passe à pleine ("X"). On décrémente le nombre de
-billes du plateau  */
-  function supprimerBilleSautee($x_case,$y_case){
-    $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "O"; // la case de la bille selectionnée devient vide
-    $_SESSION['plateau'][$x_case][$y_case] = "X"; // la bille selectionné se place dans la case selectionnée
-
-    /* Fonction qui supprime la bille sautée */
-
-    if ($_SESSION['x_sel'] - $x_case == 0) { // La bille est déplacée sur la ligne
-      if(($_SESSION['y_sel'] - $y_case) < 0){
-        $x_saute = $_SESSION['x_sel'];
-        $y_saute = $_SESSION['y_sel']+1;
-      }
-      else{
-        $x_saute = $_SESSION['x_sel'];
-        $y_saute = $_SESSION['y_sel']-1;
-      }
-    }
-
-    if($_SESSION['y_sel'] - $y_case == 0) { // La bille est déplacée sur la colonne
-      if(($_SESSION['x_sel'] - $x_case) < 0){
-        $x_saute = $_SESSION['x_sel']+1;
-        $y_saute = $_SESSION['y_sel'];
-      }
-      else{
-        $x_saute = $_SESSION['x_sel']-1;
-        $y_saute = $_SESSION['y_sel'];
-      }
-    }
-    $_SESSION['plateau'][$x_saute][$y_saute] = "O";
-    $_SESSION['nb_bille'] = $_SESSION['nb_bille'] -1;
-
-    $this->vue_partie->afficherPlateau();
-    echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
-    return;
-  }
 
 /* Fonction qui vérifie si le joueur a perdu en parcourant la totalité du tableau
 et en vérifiant qu'au moins une bille peut se déplacer en sautant par dessus une
 autre. Sinon on affiche perdu */
-  function perdu(){
+  function testVictoire(){
     for ($i=0; $i < 7; $i++) {
       for ($j=0; $j <7 ; $j++) {
         /* si aux coordonnées courants on a une bille on regarde si il y a une bille à côté
@@ -227,18 +195,21 @@ autre. Sinon on affiche perdu */
         }
       }
     }
-      echo "<br />";
-      echo "Dommage, vous avez perdu !";
-      return;
-  }
-/* Fonction qui regarde si on a gagné dès lors qu'il reste une seule bille sur
-le plateau */
-  function gagne(){
     if ($_SESSION['nb_bille'] == 1) {
-      echo "<br/>";
-      echo "Félicitations, vous avez gagné !";
-      return;
+      $_SESSION['resultat'] = true;
+      header('Location: index.php?fin');
+      exit();
     }
+    else{
+      $_SESSION['resultat'] = false;
+      header('Location: index.php?fin');
+      exit();
+    }
+  }
+
+/* On se redirige */
+  function afficherFin(){
+    $this->vue_resultat->afficherTestVictoire();
   }
 }
 ?>
