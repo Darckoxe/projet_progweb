@@ -25,16 +25,18 @@ $this->vue_resultat=new VueResultat();
 $this->vue_stats=new VueStats();
 $this->dao = new Dao();
   }
-
+/* Fonction qui permet de voir les statistiques personnelles et générales */
 function voirStats($pseudo){
   $stats = $this->dao->getStatsPerso($pseudo);
   $classement = $this->dao->getClassement();
   $this->vue_stats->voirStatsPerso($stats,$classement);
+  $this->vue_partie->formDeconnexion();
   echo "<br />";
   $this->vue_partie->formRetourJeu();
   return;
   }
 
+/* Fonction qui augmente le nombre de partie jouées dans la base de données */
 function incrementerPartieJouee($pseudo){
   $nbPartieJouee = $this->dao->getPartieJouee($pseudo);
   $nbPartieJouee = $nbPartieJouee+1;
@@ -42,6 +44,7 @@ function incrementerPartieJouee($pseudo){
   return;
   }
 
+/* Fonction qui augmente le nombre de partie gagnées dans la base de données */
 function incrementerPartieGagnee($pseudo){
   if($_SESSION['nb_bille'] == 1){
     $nbPartieGagnee = $this->dao->getPartieGagnee($pseudo);

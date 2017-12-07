@@ -1,6 +1,6 @@
 <?php
 class VueStats{
-
+/* Fonction qui permet de voir ses stats personnelles et générales */
 function voirStatsPerso($stats,$classement){?>
   <html>
     <body>
@@ -12,7 +12,6 @@ function voirStatsPerso($stats,$classement){?>
         echo $row['pseudo']." a un ratio de victoire de ".$row['ratio']."<br />";
       }
       ?>
-      <table>
     </body>
 </html>
 <?php

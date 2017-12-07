@@ -1,9 +1,12 @@
-.case_interdite{
-  background-color: white;
-}
 .case_bille{
-  background-color: #4d79ff;
+  background-color: #3B64BB;
 }
-td{
-  background-color: red;
+.case_selectionnee{
+  background-color: #3B64BB;
+}
+.case_vide{
+  background-color: #3B64BB;
+}
+.case_interdite{
+  background-color: lightgrey;
 }

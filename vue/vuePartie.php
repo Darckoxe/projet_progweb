@@ -1,5 +1,6 @@
 <?php
 class VuePartie{
+  /* Bouton pour lancer une nouvelle partie */
   function formNouvellePartie(){
   ?>
   <html>
@@ -11,7 +12,17 @@ class VuePartie{
   </html>
   <?php
     }
-
+  /* Bouton pour se déconnecter et revenir au formulaire de connexion */
+  function formDeconnexion(){
+  ?>
+  <html>
+    <body>
+      <a href="index.php"> <button> Se deconnecter </button> </a>
+    </body>
+  </html>
+  <?php
+    }
+  /* Bouton pour accéder à ses statistiques */
   function formStats(){
   ?>
   <html>
@@ -23,7 +34,7 @@ class VuePartie{
   </html>
   <?php
     }
-
+  /* Bouton pour revenir de la page des statistiques au jeu */
   function formRetourJeu(){
     ?>
     <html>
@@ -36,8 +47,13 @@ class VuePartie{
     <?php
   }
 
+  /* Fonction qui permet de créer le plateau de jeu. C'est une matrice à deux
+  dimensions. Les cases avec un "/" sont les cases interdites. Les cases avec un
+  "X" sont les cases où il y a une bille et les cases avec un "O" sont les
+  cases vides. Le plateau est stocké dans une variable de session pour
+  pouvoir le réutiliser partout */
   function creerPlateau(){
-    $plateau = array(); // On crée une matrice
+    $plateau = array();
     $plateau[0] = array("/","/","X","X","X","/","/");
     $plateau[1] = array("/","/","X","X","X","/","/");
     $plateau[2] = array("X","X","X","X","X","X","X");
@@ -51,7 +67,7 @@ class VuePartie{
 
     $this->afficherPlateau();
   }
-
+/* Fonction qui permet d'initialiser le plateau avec un message */
   function initPlateau(){
     $this->creerPlateau();
     echo "Pour commencer à jouer, cliquer sur une bille pour la supprimer.";
@@ -59,7 +75,8 @@ class VuePartie{
     echo "Il reste ".$_SESSION['nb_bille']." billes sur le plateau";
 
   }
-
+/* Fonction qui permet d'afficher le plateau en fonction de l'état de la case, de
+la variable de session error et de l'état des liens ainsi que du nombre de billes restantes. */
   function afficherPlateau(){
     echo "<html>";
     echo "<head>";

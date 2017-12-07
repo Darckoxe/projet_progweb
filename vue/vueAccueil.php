@@ -1,7 +1,7 @@
 <?php
 
 class VueAccueil{
-
+/* Fonction qui affiche le formulaire de connexion */
 function formConnexion(){
 // header("Content-type: text/html; charset=utf-8");
 ?>
@@ -17,6 +17,7 @@ function formConnexion(){
 <?php
   }
 
+/* Fonction qui affiche le formulaire d'inscription*/
 function formInscription(){?>
   <html>
     <body>
@@ -30,6 +31,7 @@ function formInscription(){?>
   </html>
 <?php  }
 
+/* Fonction qui affiche la confirmation d'inscription */
 function confirmInscription(){?>
   <html>
     <body>
