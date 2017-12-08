@@ -101,7 +101,6 @@ function selectionnerCase($x_case,$y_case){
           $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
           $this->supprimerBille($x_case+1,$y_case);
-          // $this->testVictoire();
           return;
         }
       }
@@ -116,7 +115,6 @@ function selectionnerCase($x_case,$y_case){
           $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
           $this->supprimerBille($x_case,$y_case-1);
-          // $this->testVictoire();
           return;
         }
       }
@@ -131,7 +129,6 @@ function selectionnerCase($x_case,$y_case){
           $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
           $this->supprimerBille($x_case-1,$y_case);
-          // $this->testVictoire();
           return;
         }
       }
@@ -146,7 +143,6 @@ function selectionnerCase($x_case,$y_case){
           $_SESSION['plateau'][$x_case][$y_case] = "X";
           $_SESSION['error'] = false;
           $this->supprimerBille($x_case,$y_case+1);
-          // $this->testVictoire();
           return;
         }
       }
@@ -154,7 +150,6 @@ function selectionnerCase($x_case,$y_case){
   }
   $_SESSION['error'] = true;
   $_SESSION['plateau'][$_SESSION['x_sel']][$_SESSION['y_sel']] = "X";
-  // $this->testVictoire();
   $this->vue_partie->afficherPlateau();
   $this->vue_erreur->erreurSelectionCase();
   $this->vue_partie->formNouvellePartie();
@@ -174,22 +169,22 @@ autre. Sinon on affiche perdu */
           if ($_SESSION['plateau'][$i][$j] == "X") {
             if ($_SESSION['plateau'][$i+1][$j] == "X") { // il y a une bille en bas
               if ($_SESSION['plateau'][$i+2][$j] == "O") {
-                return;
+                return true;
               }
             }
             if ($_SESSION['plateau'][$i][$j-1] == "X") { // il y a une bille à gauche
               if ($_SESSION['plateau'][$i][$j-2] == "O") {
-                return;
+                return true;
               }
             }
             if ($_SESSION['plateau'][$i-1][$j] == "X") { // il y a une bille en haut
               if ($_SESSION['plateau'][$i-2][$j] == "O") {
-                return;
+                return true;
               }
             }
             if ($_SESSION['plateau'][$i][$j+1] == "X") { // il y a une bille  à droite
               if ($_SESSION['plateau'][$i][$j+2] == "O") {
-                return;
+                return true;
             }
           }
         }
@@ -197,19 +192,24 @@ autre. Sinon on affiche perdu */
     }
     if ($_SESSION['nb_bille'] == 1) {
       $_SESSION['resultat'] = true;
-      header('Location: index.php?fin');
+      header('Location: index.php?finVictoire');
       exit();
     }
     else{
       $_SESSION['resultat'] = false;
-      header('Location: index.php?fin');
+      header('Location: index.php?finDefaite');
       exit();
     }
   }
 
 /* On se redirige */
-  function afficherFin(){
-    $this->vue_resultat->afficherTestVictoire();
+  function afficherVictoire(){
+    $this->vue_resultat->afficherVictoire();
   }
+
+  function afficherDefaite(){
+    $this->vue_resultat->afficherDefaite();
+  }
+
 }
 ?>

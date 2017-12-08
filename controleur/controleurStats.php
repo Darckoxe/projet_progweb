@@ -29,7 +29,6 @@ function voirStats($pseudo){
   $classement = $this->dao->getClassement();
   $this->vue_stats->voirStatsPerso($stats,$classement);
   $this->vue_partie->formDeconnexion();
-  echo "<br />";
   $this->vue_stats->formRetourJeu();
   return;
   }

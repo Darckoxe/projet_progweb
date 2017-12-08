@@ -10,9 +10,11 @@ function voirStatsPerso($stats,$classement){
       <p> <?php echo $stats ?> </p>
       <h1> Classement général </h1>
       <?php
+      echo "<p>";
       foreach ($classement as $row) {
         echo $row['pseudo']." a un ratio de victoire de ".$row['ratio']."<br />";
       }
+      echo "</p>";
       ?>
     </body>
 </html>

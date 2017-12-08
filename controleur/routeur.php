@@ -19,11 +19,11 @@ class Routeur {
   // Traite une requête entrante
   public function routerRequete() {
     if ((isset($_POST['pseudo'])) && $_POST['password']) {
-      if ($this->ctrlAuthentification->verif($_POST['pseudo'], $_POST['password']) == true) {
-        $_SESSION['pseudo'] = $_POST['pseudo'];
+      if ($this->ctrlAuthentification->verif($_POST['pseudo'],$_POST['password'])==true) {
         $this->ctrlPartie->nouvellePartie();
-        return;
+        $_SESSION['pseudo'] = $_POST['pseudo'];
       }
+      return;
     }
 
     if (isset($_GET['supprimerBille']) && $_SESSION['pseudo'] != null) {
@@ -74,16 +74,20 @@ class Routeur {
       return;
     }
 
-    if (isset($_GET['fin']) && $_SESSION['pseudo'] != null) {
-      $this->ctrlPartie->afficherFin();
+    if (isset($_GET['finVictoire']) && $_SESSION['pseudo'] != null && $_SESSION['resultat'] == true) {
+      $this->ctrlPartie->afficherVictoire();
+      return;
+    }
+
+    if (isset($_GET['finDefaite']) && $_SESSION['pseudo'] != null && $_SESSION['resultat'] == false) {
+      $this->ctrlPartie->afficherDefaite();
       return;
     }
 
     $this->ctrlAuthentification->connexion();
  }
+}
 
-
- }
 
 
 

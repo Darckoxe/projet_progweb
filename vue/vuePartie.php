@@ -4,6 +4,9 @@ class VuePartie{
   function formTexteDebut(){
   ?>
   <html>
+  <head>
+  <link rel="stylesheet" href="css/sheet.css" />
+  </head>
     <body>
       <p> Pour commencer à jouer, cliquer sur une bille pour la supprimer. </p>
     </body>
@@ -15,6 +18,9 @@ class VuePartie{
   function formNouvellePartie(){
   ?>
   <html>
+  <head>
+  <link rel="stylesheet" href="css/sheet.css" />
+  </head>
     <body>
           <a href="index.php?nouvelle_partie"><button>Nouvelle partie</button></a>
     </body>
@@ -25,6 +31,9 @@ class VuePartie{
   function formDeconnexion(){
   ?>
   <html>
+  <head>
+  <link rel="stylesheet" href="css/sheet.css" />
+  </head>
     <body>
       <a href="index.php?disconnect"><button>Se deconnecter</button></a>
     </body>
@@ -35,6 +44,9 @@ class VuePartie{
   function formStats(){
   ?>
   <html>
+  <head>
+  <link rel="stylesheet" href="css/sheet.css" />
+  </head>
     <body>
       <a href="index.php?statistiques"><button>Voir les statistiques</button></a>
     </body>

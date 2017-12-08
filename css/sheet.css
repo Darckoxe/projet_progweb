@@ -10,3 +10,35 @@
 .case_interdite{
   background-color: lightgrey;
 }
+.form{
+  margin: 15% auto auto auto;
+  width: 450px;
+  vertical-align: middle;
+  text-align: center;
+  /*background-color: red;*/
+}
+body{
+  text-align: center;
+  background-color: lightblue;
+}
+table{
+  margin: 0 auto;
+  background-color: black;
+  border: solid;
+}
+[for]{
+  display: inline-block;
+  float: left;
+  width: 250px;
+  margin-top: 2%;
+  margin-left: 3%;
+  /*border: solid;*/
+}
+[type=text],[type=password]{
+  /*border: solid;*/
+  margin-top: 1%;
+  /*display: inline-block;*/
+}
+[type=submit]{
+  margin-bottom: 5px;
+}

@@ -12,6 +12,7 @@ private $vue_accueil;
 private $vue_erreur;
 private $vue_partie;
 private $vue_stats;
+private $ctrl_partie;
 private $dao;
 
 
@@ -56,13 +57,10 @@ function confirmInscription($pseudo, $password){
 de l'accueil. S'il est bon on initialise le jeu sinon on lève une erreur */
 function verif($pseudo, $password){
     $mdpBdd = $this->dao->getPassword($pseudo); // Mot de passe crypté de la bdd
-    if (crypt($password,$mdpBdd) == $mdpBdd) {
-      return true;
-    }
-    else{
+    if (crypt($password,$mdpBdd) != $mdpBdd) {
       $this->vue_erreur->formErreurAuthentification();
-      return;
+      return false;
     }
-
+    return true;
   }
 }
